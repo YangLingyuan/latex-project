@@ -1,0 +1,13 @@
+\babel@toc {english}{}
+\babel@toc {english}{}
+\contentsline {section}{\numberline {1}Problem and solution}{3}{section.1}
+\contentsline {subsection}{\numberline {1.1}Problem addressment}{3}{subsection.1.1}
+\contentsline {section}{\numberline {2}Problem and solution}{3}{section.2}
+\contentsline {subsection}{\numberline {2.1}Problem addressment}{3}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Problem validation}{3}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}Solution and validation}{3}{subsection.2.3}
+\contentsline {section}{\numberline {3}Business modelling and planning}{3}{section.3}
+\contentsline {subsection}{\numberline {3.1}Business modelling}{3}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Business planning}{3}{subsection.3.2}
+\contentsline {section}{\numberline {4}Business development process}{3}{section.4}
+\contentsline {section}{\numberline {5}Self evaluation}{3}{section.5}
