@@ -49,4 +49,9 @@ M.~Morgenstern, ``Careless whisper: Does amazon echo send data in silent
   \url{https://www.iot-tests.org/2017/06/careless-whisper-does-amazon-echo-send-data-in-silent-mode/},
   accessed July 5, 2018.
 
+\bibitem{bourse2017fast}
+F.~Bourse, M.~Minelli, M.~Minihold, and P.~Paillier, ``Fast homomorphic
+  evaluation of deep discretized neural networks,'' Cryptology ePrint Archive,
+  Report 2017/1114, Tech. Rep., 2017.
+
 \end{thebibliography}

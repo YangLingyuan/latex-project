@@ -201,7 +201,7 @@ how well it works and if it's convenient. We do have a google home to conduct ex
 will have to wait for 1 minute after they say the key word.\\
 Customer buy smart speaker for the convenience. If our product makes life harder, it does't make sense and nobody will pay for it.
 In this case, we kill this solution first, even before look into technical detail.
-\item \textbf{Why we abandon internet monitor solution} This solution actually include two different solution, internet switch and 
+\item \textbf{Internet monitor solution} This solution actually include two different solution, internet switch and 
 package sniffing. The second one is the inproved version of first one.\\
 The internet switch is what we originally come up with during brain storm. It works just like power switch, but instead of control over power, 
 it controls upload traffic, prevent package being transmitted when not desired. The best thing about this solution is that it eliminates the 
@@ -214,13 +214,24 @@ With this suggestion, we do research and find out the audio data being transmitt
 work extremly hard. And it turns out somebody has already do simmilar job and we can derectly refer to it. According to a report 
 \cite{sniffingresult} by Maik Morgensternfrom AV-TEST, the communication channel of Amazon Alexa uses TLS1.2 encryption with certificate 
 validation/pinning. This technique prevented them to use a Man-In-The-Middle-proxy and read along the encrypted traffic. So they creat a 
-scenario to evaluate the intensity of data transimission and estimate what is being transmitted.
+scenario to evaluate the intensity of data transimission and estimate what is being transmitted. The scenario strats with 8 seconds of silence 
+and then Asking Alexa “What time is it?” (~6 seconds), then another 8 seconds of silence and followed by “Alexa – tea, earl grey, hot” and 
+await the answer (~5 seconds) finally the scenario end with 23 seconds of a normal conversation between two people (not including any Alexa keywords).
+ 
 \begin{figure}[hbp]
 \centering
 \includegraphics[width=5.00in,height=3.5in]{alexa_wakeup_and_pause-400x204.png}
 \caption{Transmitted bytes in the given scenario}
+\label{fig:Transmitted bytes in the given scenario}
 \end{figure}
 \end{itemize}
+We can see the result from figure \ref{fig:Transmitted bytes in the given scenario} that the data transimission during conversation looks simmilar with
+silent time, it is very likely that Alexa do not send data if it's not working. This analisis is unfavorable to our solution.\\
+Also, Prof. Yvo Desmedt give us an artical \cite{bourse2017fast} about homomorphic encryption. With such technology we will be able to processing data, 
+such as speech recognition, on remote server encryptedly wothout let the server konw a peice of information. To make use of such advanced technology 
+we need to build our own smart speaker and the remote server to conduct homomorphic encrypted speech recognition. These is not viable for starting point, 
+we plan to include it in our long term plan. 
+
 
 \subsection{Final solution}
 
