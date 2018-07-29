@@ -111,7 +111,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \renewcommand{\headrulewidth}{0pt}
-\lhead{II2202, Fall 2017, Period 1-2}
+\lhead{CPS2018}
 %% or \lhead{II2202, Fall 2016, Period 1}
 \chead{Final project report}
 \rhead{\date{\today}}
@@ -150,23 +150,82 @@ of myself both as a participant of summer school and a member of a team.
 \rr
 
 \section{Problem and solution}
+\label{sec:Problem and solution}
 \subsection{Problem addressment}
 From the point that Amazon post its 90 seconds 'Alexa Loses Her Voice' advertisment, people begin to fascinate with smart speakers 
-for the convienience it introduce into our life. However, to interacte with the users, smart speaker has to keep listening to them. 
+for the convenience it introduce into our life. However, to interacte with the users, smart speaker has to keep listening to them. 
 This feature arise doubt and panic on privacy issue. Some reports publised recently seems to confirm that such concern make sense. 
-According to The New York Times \cite{nyctimesalexa} and Quartz \cite{quartzalexa}, alexa sometimes do record undesired conversation.
+According to The New York Times \cite{nyctimesalexa} and Quartz \cite{quartzalexa}, alexa sometimes do record undesired conversation and 
+even send it to other people. If this happens, why can't they tap us and make money by our privacy? Such tapping problem is a big worry 
+for people who care about privacy. And the patent of Google and Amazon It's also been heard that when people talk about something they 
+like or they want, an relative advertisment will be forwarded to them soon.
 A study has been done across America showing that 54\% of the adults of the United States do not own a smart device in their home. 
 6.4 milion people said specifically they would not buy a smart speaker due to privacy reasons. 6.4 million people. And what about 
 the 20 million people who want to increase their privacy. In the united states alone, we have not even talked about the rest of the world. 
-And this problem will only increase in the future. 
+And this problem will only increase in the future. \\
+In this case, the problem we are going to solve is that people want to keep privacy while using smart speaker without undermine the convenience.
 
 
-
-\section{Problem and solution}
-\label{sec:Problem and solution}
-\subsection{Problem addressment}
 \subsection{Problem validation}
+We use two ways to validate our problem. The first one is talking with people. The second way is reading reports and statistics about 
+such problem. Firstly, we talk to people who has a smart speaker, 4 of our relatives are involved into our interview and all of them 
+confirm that they do have such concern and they are willing to pay for products solving such trouble. We also happen to have  
+"interivews" with Mr Jovan senior and junior during technical consulation and montoring slot. They both think Amazon and Google are 
+not trustworthy and would like to have solutions for such problem, they represent the group of people who show interest about smart 
+speaker but don't buy them due to privacy concerns.\\
+We also collect statistics to validate our problem. According to a research conducted by Pew Research Center, 46\% of the American adults 
+have ever use digital voice assistants while 8\% say they have ever use a stand-alone device such as Amazon Echo or Google Home. 
+In the mean while, according to a survey from Business Insider \cite{privacyfear} 40\% of people are concerned about connected-home 
+devices tracking their usage. And according to Business Wire , 6.4 million people said specifically they would not buy a smart 
+speaker due to privacy reasons.
+
 \subsection{Solution and validation}
+\subsection{Proposed solutions}
+To solve the addressed problem, we brainstorm and come up with several solutions and validate them one by one.
+Generally speaking, there are three ways preventing smart speaker from tapping.
+\begin{itemize}
+\item \textbf{Cut off power supply when not used } This way is to make a smart switch with speech recognition function to shut down the 
+smart speaker when you don't want to use it anymore.
+\item \textbf{Monitor/Control the internet connection when not used} This way is to stand in between remote server and local speaker 
+monitor all the internt traffic to secure no sensitive data been transmitted.
+\item \textbf{Physically prevent smart assistants from listening} This way is to disturb or deafen the microphone on smart speaker, 
+make them unable to heard from us. And remove the interference when desired.
+\end{itemize}
+
+\subsection{Validation process}
+In the beginning, these three solution all looks hopeful. But two of them are deprecated after we reading technical literature and doing test.
+\begin{itemize}
+\item \textbf{Why we abandon power switch solution} This solution is easy to validate. There is no doubt that it will work. But the problem is 
+how well it works and if it's convenient. We do have a google home to conduct experiment. After we turn it off and reboot, it takes about 
+1 minute to be responsive again. Which means if we are going to use such solution, every time our customer want to use smart assistant they 
+will have to wait for 1 minute after they say the key word.\\
+Customer buy smart speaker for the convenience. If our product makes life harder, it does't make sense and nobody will pay for it.
+In this case, we kill this solution first, even before look into technical detail.
+\item \textbf{Why we abandon internet monitor solution} This solution actually include two different solution, internet switch and 
+package sniffing. The second one is the inproved version of first one.\\
+The internet switch is what we originally come up with during brain storm. It works just like power switch, but instead of control over power, 
+it controls upload traffic, prevent package being transmitted when not desired. The best thing about this solution is that it eliminates the 
+drawback of booting latency. However, as long as we don't know the mechanism behind, we cannot ensure that the tapped audio won't be transmitted 
+once reconnected to the internet. \\
+With such problem, we consult Yvo Desmedt during a consulation slot we booked. He suggest us to use sniffing technology to monitor what is
+actually transmitted. In other words, our product will act as a transfer center of package from smart speaker and analize the package to 
+figure out if undesired package is being transmitted.
+With this suggestion, we do research and find out the audio data being transmitted are encrypted \cite{googlepolicy}, which make sniffing 
+work extremly hard. And it turns out somebody has already do simmilar job and we can derectly refer to it. According to a report 
+\cite{sniffingresult} by Maik Morgensternfrom AV-TEST, the communication channel of Amazon Alexa uses TLS1.2 encryption with certificate 
+validation/pinning. This technique prevented them to use a Man-In-The-Middle-proxy and read along the encrypted traffic. So they creat a 
+scenario to evaluate the intensity of data transimission and estimate what is being transmitted.
+\begin{figure}[hbp]
+\centering
+\includegraphics[width=5.00in,height=3.5in]{alexa_wakeup_and_pause-400x204.png}
+\caption{Transmitted bytes in the given scenario}
+\end{figure}
+\end{itemize}
+
+\subsection{Final solution}
+
+
+
 
 \section{Business modelling and planning}
 \label{sec:Business modelling and planning}

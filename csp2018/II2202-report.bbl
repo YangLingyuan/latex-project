@@ -29,7 +29,24 @@ S.~Maheshwari, ``Hey, alexa, what can you hear?''
 \bibitem{quartzalexa}
 quartz, ``An oregon family’s encounter with amazon alexa exposes the privacy
   problem of smart home devices,''
-  \url{https://qz.com/1288743/amazon-alexa-echo-spying-on-users-raises-a-data-privacy-problem/},
+  \url{https://qz.com/1288743/amazon-alexa-echo-spying-on-users-raises-a-data-privacy-problem/
+  }, accessed July 5, 2018.
+
+\bibitem{privacyfear}
+businessinsider, ``Consumers are holding off on buying smart-home gadgets
+  thanks to security and privacy fears,''
+  \url{http://www.businessinsider.com/consumers-holding-off-on-smart-home-gadgets-thanks-to-privacy-fears-2017-11?IR=T/
+  }, accessed July 5, 2018.
+
+\bibitem{googlepolicy}
+Google, ``Data security and privacy on google home,''
+  \url{https://support.google.com/googlehome/answer/7072285?hl=en }, accessed
+  July 5, 2018.
+
+\bibitem{sniffingresult}
+M.~Morgenstern, ``Careless whisper: Does amazon echo send data in silent
+  mode?''
+  \url{https://www.iot-tests.org/2017/06/careless-whisper-does-amazon-echo-send-data-in-silent-mode/},
   accessed July 5, 2018.
 
 \end{thebibliography}
