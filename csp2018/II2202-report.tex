@@ -218,7 +218,7 @@ scenario to evaluate the intensity of data transimission and estimate what is be
 and then Asking Alexa “What time is it?” (~6 seconds), then another 8 seconds of silence and followed by “Alexa – tea, earl grey, hot” and 
 await the answer (~5 seconds) finally the scenario end with 23 seconds of a normal conversation between two people (not including any Alexa keywords).
  
-\begin{figure}[hbp]
+\begin{figure}[!htb]
 \centering
 \includegraphics[width=0.6\textwidth]{alexa_wakeup_and_pause-400x204.png}
 \caption{Transmitted bytes in the given scenario}
@@ -243,7 +243,8 @@ to 0 dB which means the noise is as loud as human voice when reaching the microp
 \item The second version of our solution: use a case to cover the smart speaker which could both decrease the volume of human voice reaching microphone and 
 the volume of noise needed. A case could fix the problem in the first version almost perfectly, it both decrease the volume of noise we need and the volem of 
 noise leak out. But we need a mechanical structure to open and close the case, which should also be audio-controled. The way it work is shown in 
-figure \ref{fig:Audio disturbing solution}. This structure is viable but make our product a bit complicate. 
+figure \ref{fig:Audio disturbing solution}. This structure is viable although it require complicated mechanical structure to support smooth opening and 
+closing of the case and also speech recognition function to remain the user experience. Not good enough but we still use this solution for our first pitch.
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=0.6\textwidth]{case.png}
@@ -255,8 +256,26 @@ figure \ref{fig:Audio disturbing solution}. This structure is viable but make ou
 \end{itemize}
 
 \subsection{Final solution}
+The final solution actually evolved from the second version of Audio disturbing solution. After struggling on simplify our product and trying to add encryption 
+elements to the solution. Fortunately, we found a newly published artical from UIUC \cite{RoyNirupam2017BMMH} which provide a way to use inaudible ultrasonic sound
+to disturb microphones.\\
 
-
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=0.6\textwidth]{mic_circuit.png}
+\caption{Circuit inside microphone}
+\label{fig:Circuit inside microphone}
+\end{figure}
+Inside the microphone, all the physical audio will first been transfered to electronic signal, after that the signal should pass a component called pre-amplifier which
+will amplify the analog signal to make sure it can be effectively measured by ADC. In this procedure, the output of pre-amplifier is linear only when input is in the 
+audible frequency range which is 10-23 KHz, outside this range, the response exhibits non-linearity which will introduce harmonic. In the artical, by making use of such 
+non-linearity, they design the input ultrasonic sound and make a controlable shadow noise signal of 10KHz, which has been perfectly record by microphone.
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=0.6\textwidth]{shadow.png}
+\caption{Use ultrasound to generate shadow noise}
+\label{fig:Use ultrasound to generate shadow noise}
+\end{figure}
 
 
 \section{Business modelling and planning}
