@@ -220,11 +220,11 @@ await the answer (~5 seconds) finally the scenario end with 23 seconds of a norm
  
 \begin{figure}[hbp]
 \centering
-\includegraphics[width=5.00in,height=3.5in]{alexa_wakeup_and_pause-400x204.png}
+\includegraphics[width=0.6\textwidth]{alexa_wakeup_and_pause-400x204.png}
 \caption{Transmitted bytes in the given scenario}
 \label{fig:Transmitted bytes in the given scenario}
 \end{figure}
-\end{itemize}
+
 We can see the result from figure \ref{fig:Transmitted bytes in the given scenario} that the data transimission during conversation looks simmilar with
 silent time, it is very likely that Alexa do not send data if it's not working. This analisis is unfavorable to our solution.\\
 Also, Prof. Yvo Desmedt give us an artical \cite{bourse2017fast} about homomorphic encryption. With such technology we will be able to processing data, 
@@ -232,6 +232,27 @@ such as speech recognition, on remote server encryptedly wothout let the server 
 we need to build our own smart speaker and the remote server to conduct homomorphic encrypted speech recognition. These is not viable for starting point, 
 we plan to include it in our long term plan. 
 
+\item \textbf{Audio disturbing solution} Interference is the first solution we come up with. The way how it works is to decrease the Signal Noise Ratio(SNR), 
+which describe the level of a desired signal to the level of background noise, as low as possible. In other word, make noises to make conversation 
+incomprehensive. There is one thing to be noted, a startup company called Privacy Shield has already 
+\begin{itemize}
+\item  The first version of disturbing solution: use mini speakers to play white noise, which is a very common noise type, near the 
+microphone of smart speaker. However, there is a big problem. The noise we play might bother our customer. According to the Acoustic Modeling report
+of google home \cite{46130}, it could work well at SNRs ranging from 0 dB to 20 dB or above. So in the most optimistic scenario, we need to decrease the SNR 
+to 0 dB which means the noise is as loud as human voice when reaching the microphone. This is load enough to be haerd several meters away.
+\item The second version of our solution: use a case to cover the smart speaker which could both decrease the volume of human voice reaching microphone and 
+the volume of noise needed. A case could fix the problem in the first version almost perfectly, it both decrease the volume of noise we need and the volem of 
+noise leak out. But we need a mechanical structure to open and close the case, which should also be audio-controled. The way it work is shown in 
+figure \ref{fig:Audio disturbing solution}. This structure is viable but make our product a bit complicate. 
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=0.6\textwidth]{case.png}
+\caption{Audio disturbing solution}
+\label{fig:Audio disturbing solution}
+\end{figure}
+\end{itemize}
+
+\end{itemize}
 
 \subsection{Final solution}
 

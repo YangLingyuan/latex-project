@@ -1,8 +1,8 @@
-PWD c:/Users/lingyuan/Documents/latex/latex-project/csp2018
+PWD c:/Users/enyailn/Documents/LaTex project/csp2018
 INPUT c:/texlive/2018/texmf.cnf
 INPUT c:/texlive/2018/texmf-dist/web2c/texmf.cnf
 INPUT c:/texlive/2018/texmf-var/web2c/pdftex/pdflatex.fmt
-INPUT c:/Users/lingyuan/Documents/latex/latex-project/csp2018/II2202-report.tex
+INPUT c:/Users/enyailn/Documents/LaTex project/csp2018/II2202-report.tex
 OUTPUT II2202-report.log
 INPUT c:/texlive/2018/texmf-dist/tex/latex/base/article.cls
 INPUT c:/texlive/2018/texmf-dist/tex/latex/base/article.cls
@@ -344,8 +344,18 @@ INPUT c:/texlive/2018/texmf-dist/fonts/tfm/adobe/times/ptmb8r.tfm
 INPUT alexa_wakeup_and_pause-400x204.png
 INPUT ./alexa_wakeup_and_pause-400x204.png
 INPUT ./alexa_wakeup_and_pause-400x204.png
+INPUT case.png
+INPUT ./case.png
+INPUT ./case.png
 INPUT II2202-report.bbl
 INPUT II2202-report.bbl
+INPUT c:/texlive/2018/texmf-dist/fonts/tfm/adobe/times/ptmr7t.tfm
+INPUT c:/texlive/2018/texmf-dist/fonts/tfm/adobe/times/ptmr7t.tfm
+INPUT c:/texlive/2018/texmf-dist/fonts/vf/adobe/times/zptmcm7y.vf
+INPUT c:/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmsy10.tfm
+INPUT c:/texlive/2018/texmf-dist/fonts/tfm/adobe/symbol/psyr.tfm
+INPUT c:/texlive/2018/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
+INPUT c:/texlive/2018/texmf-dist/fonts/tfm/public/rsfs/rsfs10.tfm
 INPUT II2202-report.aux
 INPUT c:/texlive/2018/texmf-dist/fonts/enc/dvips/base/8r.enc
 INPUT c:/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
