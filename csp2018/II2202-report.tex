@@ -21,7 +21,10 @@
 \usepackage{amsmath}
 \usepackage[scaled=.90]{helvet}
 \usepackage{courier}
-
+\usepackage{tikz}
+\usetikzlibrary{arrows,decorations.pathmorphing,backgrounds,fit,positioning,calc,shapes}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.13}
 \usepackage[center]{titlesec}
 \usepackage{bookmark}
 
@@ -31,9 +34,8 @@
 %%----------------------------------------------------------------------------
 %%   pcap2tex stuff
 %%----------------------------------------------------------------------------
- \usepackage[dvipsnames*,svgnames]{xcolor} %% For extended colors
- \usepackage{tikz}
- \usetikzlibrary{arrows,decorations.pathmorphing,backgrounds,fit,positioning,calc,shapes}
+ %\usepackage[dvipsnames*,svgnames]{xcolor} %% For extended colors
+
 
 %% \usepackage{pgfmath}	% --math engine
 %%----------------------------------------------------------------------------
@@ -266,10 +268,12 @@ to disturb microphones.\\
 \caption{Circuit inside microphone}
 \label{fig:Circuit inside microphone}
 \end{figure}
-Inside the microphone, all the physical audio will first been transfered to electronic signal, after that the signal should pass a component called pre-amplifier which
-will amplify the analog signal to make sure it can be effectively measured by ADC. In this procedure, the output of pre-amplifier is linear only when input is in the 
-audible frequency range which is 10-23 KHz, outside this range, the response exhibits non-linearity which will introduce harmonic. In the artical, by making use of such 
-non-linearity, they design the input ultrasonic sound and make a controlable shadow noise signal of 10KHz, which has been perfectly record by microphone.
+Inside the microphone, all the physical audio will first been transfered to electronic signal, after that the signal should pass a component called pre-amplifier 
+which will amplify the analog signal to make sure it can be effectively measured by ADC. In this procedure, the output of pre-amplifier is linear only when input 
+is in the audible frequency range which is 10-23 KHz, outside this range, the response exhibits non-linearity which will introduce harmonic. In the artical, 
+by making use of such non-linearity, they design the input ultrasonic sound and make a controlable shadow noise signal within the audible range, which has been
+perfectly recorded by microphone.
+
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=0.6\textwidth]{shadow.png}
@@ -277,12 +281,132 @@ non-linearity, they design the input ultrasonic sound and make a controlable sha
 \label{fig:Use ultrasound to generate shadow noise}
 \end{figure}
 
+And by analyze the output signal from pre-amplifier, the researchers make sure that the "shadow" noise is as expect and strong enough to disturb the speech 
+recognition result. Being more specific, they use two tones at say 40kHz and 50kHz, When these tones arrive together at the microphone's power amplier,
+they are amplied as expected, but also multiplied due to fundamental non-linearities in the system. Multiplication of frequencies f1 and f2 result in frequency 
+components at $(f_1-f2)$ and $(f_1+f_2)$,  $(f_1-f2)$ is 10kHz in this case. The harmonic measured is shown in figure \ref{fig:Non-linear Harmonic}.
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=0.5\textwidth]{freq.png}
+\caption{Non-linear Harmonic}
+\label{fig:Non-linear Harmonic}
+\end{figure}
+
+This solution is perfect for the problem we addressed, however, we still facing questions during technical consulation.
+
+\begin{itemize}
+\item \textbf{Will the ultrasound hurt people?}\\ The first obvious concern is about health and well-being, people are always worry about radiation and altrasound 
+hurt their health. Actually ultrasound effect your body just as normal sound, frequency here does not make any difference. Only power of the voice matters 
+\cite{ultrasoundfda}. According to the measurement conducted by the auther\cite{RoyNirupam2017BMMH}, we know that the amplifier have a very large magnitude, which is 
+-40 dB/Hz around frequency of 45kHz, this means we can make our disturbing altralsound really weak to fulfill the desired effect.
+\item \textbf{Will the ultrasound hurt pets?}\\ We know that the audible range of pets like dogs and cats are different from people, usually higher. What if the 
+frequency of ultrasound is out of human audible range but fall in animal hearing range? This concern make sense. We have choice to design the frequencies of input 
+ultrasound as long as their difference remian the same, however, the further the frequency deviates from 50kHz, which is a peak for magnitude, the smaller the 
+amplification. This problem can be solved, although not perfectly right now.
+\item \textbf{This technology is brand new, is it business viable?}\\ Our solution s based on a paper published last year. Such new technology could help us get rid 
+of much competition, but also rise the problem that if it can be realize. According to the paper the authers already have a prototype for testing, and by reviewing 
+the blog of the authers, we found out the prototype they made \ref{fig:Prototype}. It's a speaker array to disturb the microphone in a room, while the power of it is 
+only 2W. \\
+We also write email to cantact with them. Their technology is pending for IP but they welcome usage for research and also open for business coorperation.
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\textwidth]{prototype.png}
+\caption{Prototype}
+\label{fig:Prototype}
+\end{figure}
+
+\end{itemize}
+
+After all of these problem we finalize the desining of our product. Which is shown in figure \ref{fig:Final designing}
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[height=0.6\textwidth]{safedock.png}
+\caption{Final designing}
+\label{fig:Final designing}
+\end{figure}
+
+
+
+
+
 
 \section{Business modelling and planning}
 \label{sec:Business modelling and planning}
+In our case, business modle is relative straightforward. 
 \subsection{Business modelling}
+\begin{itemize}
+\item \textbf{Key Partners}\\
+    \begin{itemize}
+    \item \textbf{The authers of article} \cite{RoyNirupam2017BMMH}. As long as the technology we rely on is based on others IP, or very likely 
+    have an IP. We need to coorperte with them. Not only for technical development support, but also to prevent infringement of 
+    intellectual property rights.
+    \item \textbf{Google \& Amazon} Our business is dependent on the development of smart speaker. Right now, Google Home and Amazon Alexa combining 
+    account for 90\% of market share. They are special to our business, our product are against them while we also dependent on their progress.
+    These giants won't stand by and watch us standing in their way, they will have some way to solve this problem. Instead of waiting for competition with 
+    these giants, which would be tough for our start-up, we have choice to get in touch with them and seek some kind of coorperation or even been bought 
+    in the future.
+    \item \textbf{Speech recognition special company} One of the key value of our product is that we do not hurt the convenience. As long as we need a 
+    speech recognition solution which ought to work as better as Google does, it is wise to find a partener who is specialized in this area. 
+
+    \end{itemize}
+
+\item \textbf{Value Proposition}\\
+\begin{itemize}
+    \item \textbf{Keep privacy for our customer} The core value of our product is keeping privacy, to prevent Google and Amazon from tapping ourcustomer
+    and also to make our customer feel secured.
+    \item \textbf{Remain convenience} The most important reason for using a smart sepaker is to make life easier, our product should be a gain for smart speaker 
+    in which case we will keep the feature of audio control and fast response.
+\end{itemize}
+
+\item \textbf{Customer Segments}\\
+\begin{itemize}
+    \item \textbf{People who already have a smart speaker.} This group of people is the so called early adopters who are willing to try fresh things. They are very 
+    likely having such trouble. Acoording to the survey \cite{amountsmartassistant}, 40\% of the users of smart speaker do worry about privacy issues. And our product 
+    perfectly fit their demands. They are also proven customers who have willing to pay for such advanced products.
+    \item \textbf{People who want a smart speaker but do not for privacy reason} The number of this group of people is considerable, while the willing to pay is hard to say.
+    With the survey \cite{privacyfear} conducted by Business Insider we can say that we have 6.4 million potential customer in this group. The problem here is how to
+    strengthen their will to pay.
+\end{itemize}
+
+
+
+\end{itemize}
 \subsection{Business planning}
 
+\begin{figure}[!h]
+    \centering
+    \caption{Cash flow}
+    \label{fig:Cash flow}
+    \begin{tikzpicture}
+        \begin{axis}[xlabel={Month },ylabel={Cash/K\$}]
+    \addplot+[sharp plot]
+    coordinates
+    { (1,-25)
+      (2,-30 )
+      (3,-44)
+      (4,-61)
+      (5,-77)
+      (6,-100)
+      (7,-135)
+      (8,-145)
+      (9,-154)
+      (10,-155)
+      (11,-145)
+      (12,-122)
+      (13,-81)
+      (14,-29)
+      (15,34)
+      (16,108)
+      (17,204)
+      (18,322)
+      (19,462)
+      };
+\end{axis}
+\end{tikzpicture}
+\end{figure}
 
 \section{Business development process}
 \label{sec:Business development process}
