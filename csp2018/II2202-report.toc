@@ -11,4 +11,6 @@
 \contentsline {subsection}{\numberline {2.1}Business modelling}{7}{subsection.2.1}
 \contentsline {subsection}{\numberline {2.2}Business planning}{9}{subsection.2.2}
 \contentsline {section}{\numberline {3}Business development process}{10}{section.3}
-\contentsline {section}{\numberline {4}Self evaluation}{11}{section.4}
+\contentsline {section}{\numberline {4}Self evaluation}{10}{section.4}
+\contentsline {subsection}{\numberline {4.1}Course study}{10}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Team work}{12}{subsection.4.2}
