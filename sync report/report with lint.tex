@@ -1,0 +1,667 @@
+\title{G2 G3 diff report}
+\author{
+        \textsc{Lingyuan Yang}
+            \qquad
+        \\
+        \normalsize
+            \texttt{lingyuan.yang@ericsson.com}
+}
+\date{\today}
+
+\documentclass[12pt,twoside]{article}
+
+\usepackage[paper=a4paper,dvips,top=1.5cm,left=1.5cm,right=1.5cm,
+    foot=1cm,bottom=1.5cm]{geometry}
+
+
+%\usepackage[T1]{fontenc}
+%%\usepackage{pslatex}
+\renewcommand{\rmdefault}{ptm} 
+\usepackage{mathptmx}
+\usepackage{amsmath}
+\usepackage[scaled=.90]{helvet}
+\usepackage{courier}
+
+\usepackage[center]{titlesec}
+\usepackage{bookmark}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+%%\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}-
+%%   pcap2tex stuff
+%%\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}-
+ \usepackage[dvipsnames*,svgnames]{xcolor} %% For extended colors
+ \usepackage{tikz}
+ \usetikzlibrary{arrows,decorations.pathmorphing,backgrounds,fit,positioning,calc,shapes}
+
+%% \usepackage{pgfmath}	% --math engine
+%%\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}\rule{\textwidth}{0.5pt}-
+%% \usepackage[latin1]{inputenc}
+\usepackage[utf8]{inputenc} % inputenc allows the user to input accented characters directly from the keyboard
+\usepackage[english]{babel}
+%% \usepackage{rotating}		 %% For text rotating
+\usepackage{array}			 %% For table wrapping
+\usepackage{graphicx}	                 %% Support for images
+\usepackage{float}			 %% Suppor for more flexible floating box positioning
+\usepackage{color}                       %% Support for colour 
+\usepackage{mdwlist}
+%% \usepackage{setspace}                 %% For fine-grained control over line spacing
+%% \usepackage{listings}		 %% For source code listing
+%% \usepackage{bytefield}                %% For packet drawings
+\usepackage{tabularx}		         %% For simple table stretching
+%%\usepackage{multirow}	                 %% Support for multirow colums in tables
+\usepackage{dcolumn}	                 %% Support for decimal point alignment in tables
+\usepackage{url}	                 %% Support for breaking URLs
+\usepackage[perpage,para,symbol]{footmisc} %% use symbols to ``number'' footnotes and reset which symbol is used first on each page
+
+%% \usepackage{pygmentize}           %% required to use minted -- see python-pygments - Pygments is a Syntax Highlighting Package written in Python
+%% \usepackage{minted}		     %% For source code highlighting
+
+ \usepackage{hyperref}		
+\usepackage[all]{hypcap}	 %% Prevents an issue related to hyperref and caption linking
+%% setup hyperref to use the darkblue color on links
+ \hypersetup{colorlinks,breaklinks,
+             linkcolor=darkblue,urlcolor=darkblue,
+             anchorcolor=darkblue,citecolor=darkblue}
+
+%% Some definitions of used colors
+\definecolor{darkblue}{rgb}{0.0,0.0,0.3} %% define a color called darkblue
+\definecolor{darkred}{rgb}{0.4,0.0,0.0}
+\definecolor{red}{rgb}{0.7,0.0,0.0}
+\definecolor{lightgrey}{rgb}{0.8,0.8,0.8} 
+\definecolor{grey}{rgb}{0.6,0.6,0.6}
+\definecolor{darkgrey}{rgb}{0.4,0.4,0.4}
+%% Reduce hyphenation as much as possible
+\hyphenpenalty=15000 
+\tolerance=1000
+
+%% useful redefinitions to use with tables
+\newcommand{\rr}{\raggedright} %% raggedright command redefinition
+\newcommand{\rl}{\raggedleft} %% raggedleft command redefinition
+\newcommand{\tn}{\tabularnewline} %% tabularnewline command redefinition
+
+%% definition of new command for bytefield package
+\newcommand{\colorbitbox}[3]{%
+	\rlap{\bitbox{#2}{\color{#1}\rule{\width}{\height}}}%
+	\bitbox{#2}{#3}}
+
+%% command to ease switching to red color text
+\newcommand{\red}{\color{red}}
+%%redefinition of paragraph command to insert a breakline after it
+\makeatletter
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+  {-3.25ex\@plus -1ex \@minus -.2ex}%
+  {1.5ex \@plus .2ex}%
+  {\normalfont\normalsize\bfseries}}
+\makeatother
+
+%%redefinition of subparagraph command to insert a breakline after it
+\makeatletter
+\renewcommand\subparagraph{\@startsection{subparagraph}{5}{\z@}%
+  {-3.25ex\@plus -1ex \@minus -.2ex}%
+  {1.5ex \@plus .2ex}%
+  {\normalfont\normalsize\bfseries}}
+\makeatother
+
+\setcounter{tocdepth}{3}	%% 3 depth levels in TOC
+\setcounter{secnumdepth}{5}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% End of preamble
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\renewcommand{\headrulewidth}{0pt}
+
+
+\selectlanguage{english}
+\makeatletter
+\let\ps@plain\ps@fancy 
+\makeatother
+
+\setlength{\headheight}{15pt}
+
+\begin{document}
+
+\maketitle
+\clearpage
+
+\tableofcontents
+
+
+
+\clearpage
+\rr
+\begin{abstract}
+After cherry pick the commits "proposal for sync-common(objectId update)" and "sync-fm for 32/64bit compatibility". 
+The warnings from G2 and G3 build with \textbf{lint} are collected and compared as follows.
+\end{abstract}
+ 
+\section{sync-central} 
+\subsection{Difference} 
+\textbf{G2-}: sync-fm 
+\rule{\textwidth}{0.5pt} 
+\textbf{G3+}: sync-central\\ 
+\textbf{G3+}: WARNING: [sync-central] /repo/enyailn/sync/sync-central/files/src/swuphandling/RadioEquipmentClockSwupClassChain.cc:80:19: warning: comparison is always true due to limited range of data type [-Wtype-limits]\\ 
+\textbf{G3+}: WARNING: [sync-central] /repo/enyailn/sync/sync-central/files/src/swuphandling/RadioEquipmentClockSwupClassChain.cc:83:21: warning: comparison is always true due to limited range of data type [-Wtype-limits]\\ 
+\textbf{G3+}: WARNING: [sync-central] /repo/enyailn/sync/sync-central/files/src/model/selection/RadioEquipmentRef.cc:626 Info 712 Loss of precision (assignment) (unsigned long to unsigned int)\\ 
+\textbf{G3+}: WARNING: [sync-central] /repo/enyailn/sync/sync-central/files/src/control/modelif/ModelHandler.cc:800 Info 712 Loss of precision (arg. no. 1) (unsigned long to unsigned int)\\ 
+\textbf{G3+}: WARNING: [sync-central] /repo/enyailn/sync/sync-central/files/../../sync-common/common\_fwk\_classes/srsif/SrsIfPrimitives.cc:17 Warning 451 Header file '/repo/enyailn/sync/build/devfs/dusg3/dusg3-distro/x86\_64/usr/include/c++/7.3.0/cmath' repeatedly included but does not have a standard include guard\\ 
+\textbf{G3+}: WARNING: [sync-central] /repo/enyailn/sync/sync-central/files/../../sync-common/common\_fwk\_classes/sci/SciPrimitives.cc:5062 Warning 644 Variable '\_\_v' (line 5062) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-central] /repo/enyailn/sync/sync-central/files/../../sync-common/common\_fwk\_classes/sci/SciPrimitives.cc:5071 Warning 644 Variable '\_\_v' (line 5071) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-central] /repo/enyailn/sync/sync-central/files/src/model/GlobalRadioClock.cc:110 Info 712 Loss of precision (assignment) (unsigned long to unsigned int)\\ 
+\textbf{G3+}: WARNING: [sync-central] /repo/enyailn/sync/sync-central/files/src/control/Controller.cc:752 Warning 650 Constant '-1' out of range for operator '=='\\ 
+  
+\textbf{G3+}: sync-fm\\ 
+\textbf{G3+}: WARNING: [sync-fm] /repo/enyailn/sync/sync-fm/files/src/faultfilter/integral/IntegralStateMachine.cc:82:29: warning: this statement may fall through [-Wimplicit-fallthrough=]\\ 
+\subsection{Difference} 
+\textbf{G3+}: WARNING: [sync-fm] /repo/enyailn/sync/sync-fm/files/src/EventLoop.cc:59 Error 1055 Symbol 'Sync::faultmanagement::wait' undeclared, assumed to return int\\ 
+\textbf{G3+}: WARNING: [sync-fm] /repo/enyailn/sync/sync-fm/files/src/EventLoop.cc:59 Info 746 call to function 'Sync::faultmanagement::wait()' not made in the presence of a prototype\\ 
+\subsection{Difference} 
+\textbf{G2-}: WARNING: [sync-fm] /repo/enyailn/sync/sync-fm/files/src/EventLoop.cc:59 Warning 505 Redundant left argument to comma\\ 
+\textbf{G2-}: WARNING: [sync-fm] /repo/enyailn/sync/sync-fm/files/src/EventLoop.cc:59 Error 69 can't cast from struct to union\\ 
+\textbf{G2-}: WARNING: [sync-fm] /repo/enyailn/sync/sync-fm/files/src/EventLoop.cc:59 Warning 522 Highest operation, operator '.', lacks side-effects\\ 
+\rule{\textwidth}{0.5pt} 
+\textbf{G3+}: WARNING: [sync-fm] /repo/enyailn/sync/sync-fm/files/src/EventLoop.cc:59 Warning 534 Ignoring return value of function 'Sync::faultmanagement::wait()' (compare with line 59)\\ 
+  
+\section{sync-local} 
+\subsection{Difference} 
+  
+\textbf{G3+}: common\\ 
+\textbf{G3+}: WARNING: [tucommon] /repo/enyailn/sync/sync-local/files/src/swu/tuCommon/tu\_common.c:280:51: warning: format '\%lld' expects argument of type 'long long int', but argument 5 has type '\_S64\_ {aka long int}' [-Wformat=]\\ 
+\textbf{G3+}: WARNING: [tucommon] /repo/enyailn/sync/sync-local/files/src/swu/tuCommon/tu\_coli.c:1070:11: warning: comparison is always false due to limited range of data type [-Wtype-limits]\\ 
+\textbf{G3+}: WARNING: [tucommon] /repo/enyailn/sync/sync-local/files/src/swu/tuCommon/tu\_coli.c:1091:22: warning: comparison is always false due to limited range of data type [-Wtype-limits]\\ 
+\textbf{G3+}: WARNING: [tucommon] /repo/enyailn/sync/sync-local/files/src/swu/tuCommon/tu\_coli.c:1070 Warning 650 Constant '-1' out of range for operator '=='\\ 
+\textbf{G3+}: WARNING: [tucommon] /repo/enyailn/sync/sync-local/files/src/swu/tuCommon/tu\_coli.c:1091 Warning 650 Constant '-1' out of range for operator '=='\\ 
+\textbf{G3+}: WARNING: [common] /repo/enyailn/sync/sync-local/files/../../sync-common/nss\_common/ifu/nss\_communication\_iif.c:123 Info 818 Pointer parameter 'serviceTag' (line 94) could be declared as pointing to const\\ 
+  
+\textbf{G3+}: spm\\ 
+\textbf{G3+}: WARNING: [spm] /repo/enyailn/sync/sync-local/files/src/swu/spm/spm\_client\_if.c:137:18: warning: field width specifier '*' expects argument of type 'int', but argument 5 has type 'size\_t {aka long unsigned int}' [-Wformat=]\\ 
+\textbf{G3+}: WARNING: [spm] /repo/enyailn/sync/sync-local/files/src/swu/spm/spm\_client\_if.c:171:14: warning: field width specifier '*' expects argument of type 'int', but argument 4 has type 'size\_t {aka long unsigned int}' [-Wformat=]\\ 
+\textbf{G3+}: WARNING: [spm] /repo/enyailn/sync/sync-local/files/src/swu/spm/spm\_client\_if.c:179:12: warning: field width specifier '*' expects argument of type 'int', but argument 2 has type 'size\_t {aka long unsigned int}' [-Wformat=]\\ 
+  
+\textbf{G3+}: sync-cpri-pll-lits-lib\\ 
+\textbf{G3+}: WARNING: [sync-cpri-pll-lits-lib] /repo/enyailn/sync/sync-cpri-pll-lib/files/src/sync\_cpri\_pll\_filter.c:181 Info 790 Suspicious truncation, integral to float\\ 
+\textbf{G3+}: WARNING: [sync-cpri-pll-lits-lib] /repo/enyailn/sync/sync-cpri-pll-lib/files/src/sync\_cpri\_pll\_filter.c:212 Info 790 Suspicious truncation, integral to float\\ 
+  
+\textbf{G3+}: tucommon\\ 
+\textbf{G3+}: WARNING: [tucommon] /repo/enyailn/sync/sync-local/files/src/swu/tuCommon/tu\_common.c:280:51: warning: format '\%lld' expects argument of type 'long long int', but argument 5 has type '\_S64\_ {aka long int}' [-Wformat=]\\ 
+\textbf{G3+}: WARNING: [tucommon] /repo/enyailn/sync/sync-local/files/src/swu/tuCommon/tu\_coli.c:1070:11: warning: comparison is always false due to limited range of data type [-Wtype-limits]\\ 
+\textbf{G3+}: WARNING: [tucommon] /repo/enyailn/sync/sync-local/files/src/swu/tuCommon/tu\_coli.c:1091:22: warning: comparison is always false due to limited range of data type [-Wtype-limits]\\ 
+\textbf{G3+}: WARNING: [tucommon] /repo/enyailn/sync/sync-local/files/src/swu/tuCommon/tu\_coli.c:1070 Warning 650 Constant '-1' out of range for operator '=='\\ 
+\textbf{G3+}: WARNING: [tucommon] /repo/enyailn/sync/sync-local/files/src/swu/tuCommon/tu\_coli.c:1091 Warning 650 Constant '-1' out of range for operator '=='\\ 
+  
+\textbf{G3+}: tuhali\\ 
+\textbf{G3+}: WARNING: [tuhali] /repo/enyailn/sync/sync-local/files/src/swu/tuHali/hali.c:72:23: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]\\ 
+  
+\textbf{G3+}: tumgr\\ 
+\textbf{G3+}: WARNING: [tumgr] /repo/enyailn/sync/sync-local/files/src/swu/tuMgr/syncLocalIfServer.c:725:18: warning: field width specifier '*' expects argument of type 'int', but argument 5 has type 'size\_t {aka long unsigned int}' [-Wformat=]\\ 
+\textbf{G3+}: WARNING: [tumgr] /repo/enyailn/sync/sync-local/files/src/swu/tuMgr/syncLocalIfServer.c:759:21: warning: field width specifier '*' expects argument of type 'int', but argument 2 has type 'size\_t {aka long unsigned int}' [-Wformat=]\\ 
+\textbf{G3+}: WARNING: [tumgr] /repo/enyailn/sync/sync-local/files/src/swu/tuMgr/tumgr\_mem.c:321:15: warning: format '\%u' expects argument of type 'unsigned int', but argument 3 has type 'long unsigned int' [-Wformat=]\\ 
+  
+\textbf{G3+}: turef\\ 
+\textbf{G3+}: WARNING: [turef] /repo/enyailn/sync/sync-local/files/src/swu/tuRef/turef.c:222 Warning 668 Possibly passing a null pointer to function 'strncpy(char *, const char *, unsigned int)', arg. no. 2 [Reference: file /repo/enyailn/sync/sync-local/files/src/swu/tuRef/turef.c: line 132]\\ 
+  
+\section{sync-itc-coli} 
+  
+\section{sync-ptp-central} 
+\subsection{Difference} 
+  
+\textbf{G3+}: sync-ptp-central\\ 
+\textbf{G3+}: WARNING: [sync-ptp-central] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:122:1: warning: '00:00:00:00:00:00' directive output truncated writing 17 bytes into a region of size 6 [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-ptp-central] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:214:1: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-ptp-central] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:343:1: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-ptp-central] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:371:1: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-ptp-central] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:544:1: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-ptp-central] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:594:1: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-ptp-central] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:622:1: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-ptp-central] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:791:1: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-ptp-central] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:831:1: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-ptp-central] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:859:1: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-ptp-central] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:1045:1: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-ptp-central] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:1107:1: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-ptp-central] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:1107:1: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-ptp-central] /repo/enyailn/sync/sync-ptp-central/files/../../sync-common/common\_fwk\_classes/srsif/SrsIfPrimitives.cc:17 Warning 451 Header file '/repo/enyailn/sync/build/devfs/dusg3/dusg3-distro/x86\_64/usr/include/c++/7.3.0/cmath' repeatedly included but does not have a standard include guard\\ 
+  
+\section{sync-ptp-local} 
+\subsection{Difference} 
+  
+\textbf{G3+}: sync-ptp-local\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:338:7: warning: 'readdir\_r' is deprecated [-Wdeprecated-declarations]\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:436:17: warning: comparison is always false due to limited range of data type [-Wtype-limits]\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2269:46: warning: format '\%lld' expects argument of type 'long long int', but argument 4 has type 'int64\_t {aka long int}' [-Wformat=]\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2269:56: warning: format '\%lld' expects argument of type 'long long int', but argument 6 has type 'int64\_t {aka long int}' [-Wformat=]\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:1608:78: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:1608:78: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:1608:78: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:1608:78: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:1608:78: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:1608:78: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:1608:78: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:1608:78: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:340:53: warning: '\%s' directive output may be truncated writing up to 255 bytes into a region of size 45 [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:1608:78: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/configMgr.c:1021:39: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/configMgr.c:1022:40: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/syncLocalIfAdm.c:313:18: warning: field width specifier '*' expects argument of type 'int', but argument 5 has type 'size\_t {aka long unsigned int}' [-Wformat=]\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:436 Warning 650 Constant '-1' out of range for operator '=='\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:1856 Info 712 Loss of precision (assignment) (long to int)\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:1896 Info 712 Loss of precision (assignment) (long to int)\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2435 Warning 644 Variable '\_\_v' (line 2435) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2438 Warning 644 Variable '\_\_v' (line 2438) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2439 Warning 644 Variable '\_\_v' (line 2439) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2440 Warning 644 Variable '\_\_v' (line 2440) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2441 Warning 644 Variable '\_\_v' (line 2441) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2442 Warning 644 Variable '\_\_v' (line 2442) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2443 Warning 644 Variable '\_\_v' (line 2443) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2498 Warning 644 Variable '\_\_v' (line 2498) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2499 Warning 644 Variable '\_\_v' (line 2499) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2506 Warning 644 Variable '\_\_v' (line 2506) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2515 Warning 644 Variable '\_\_v' (line 2515) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2516 Warning 644 Variable '\_\_v' (line 2516) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2519 Warning 644 Variable '\_\_v' (line 2519) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2526 Warning 644 Variable '\_\_v' (line 2526) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2533 Warning 644 Variable '\_\_v' (line 2533) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2549 Warning 644 Variable '\_\_v' (line 2549) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2562 Warning 644 Variable '\_\_v' (line 2562) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2567 Warning 644 Variable '\_\_v' (line 2567) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2596 Warning 644 Variable '\_\_v' (line 2596) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2617 Warning 644 Variable '\_\_v' (line 2617) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2620 Warning 644 Variable '\_\_v' (line 2620) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2621 Warning 644 Variable '\_\_v' (line 2621) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2622 Warning 644 Variable '\_\_v' (line 2622) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2623 Warning 644 Variable '\_\_v' (line 2623) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2624 Warning 644 Variable '\_\_v' (line 2624) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2678 Warning 644 Variable '\_\_v' (line 2678) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2691 Warning 644 Variable '\_\_v' (line 2691) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2692 Warning 644 Variable '\_\_v' (line 2692) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2703 Warning 644 Variable '\_\_v' (line 2703) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2764 Warning 644 Variable '\_\_v' (line 2764) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2765 Warning 644 Variable '\_\_v' (line 2765) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-ptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2777 Warning 644 Variable '\_\_v' (line 2777) may not have been initialized\\ 
+  
+\section{sync-multi-control} 
+\subsection{Difference} 
+  
+\textbf{G3+}: sync-multi-control\\ 
+\textbf{G3+}: WARNING: [sync-multi-control] /repo/enyailn/sync/sync-multi-control/files/src/control/Controller.cc:227:68: warning: field width specifier '*' expects argument of type 'int', but argument 5 has type 'size\_t {aka long unsigned int}' [-Wformat=]\\ 
+  
+\section{sync-multi-local} 
+\subsection{Difference} 
+  
+\textbf{G3+}: sync-multi-local\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/ConfigMgr.c:1021:39: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/ConfigMgr.c:1022:40: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:338:7: warning: 'readdir\_r' is deprecated [-Wdeprecated-declarations]\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:436:17: warning: comparison is always false due to limited range of data type [-Wtype-limits]\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:2269:46: warning: format '\%lld' expects argument of type 'long long int', but argument 4 has type 'int64\_t {aka long int}' [-Wformat=]\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:2269:56: warning: format '\%lld' expects argument of type 'long long int', but argument 6 has type 'int64\_t {aka long int}' [-Wformat=]\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:1608:78: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:1608:78: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:1608:78: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:1608:78: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:1608:78: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:1608:78: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:1608:78: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:1608:78: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:340:53: warning: '\%s' directive output may be truncated writing up to 255 bytes into a region of size 45 [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:1608:78: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/Slif.c:237:18: warning: field width specifier '*' expects argument of type 'int', but argument 5 has type 'size\_t {aka long unsigned int}' [-Wformat=]\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/Smclif.c:610:18: warning: field width specifier '*' expects argument of type 'int', but argument 5 has type 'size\_t {aka long unsigned int}' [-Wformat=]\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/util/ByteOrder.c:115 Warning 644 Variable '\_\_v' (line 115) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/util/ByteOrder.c:115 Warning 644 Variable '\_\_v' (line 115) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/Coli.c:893 Info 818 Pointer parameter 'distrib' (line 880) could be declared as pointing to const\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:436 Warning 650 Constant '-1' out of range for operator '=='\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:1856 Info 712 Loss of precision (assignment) (long to int)\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:1896 Info 712 Loss of precision (assignment) (long to int)\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:2435 Warning 644 Variable '\_\_v' (line 2435) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:2438 Warning 644 Variable '\_\_v' (line 2438) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:2439 Warning 644 Variable '\_\_v' (line 2439) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:2440 Warning 644 Variable '\_\_v' (line 2440) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:2441 Warning 644 Variable '\_\_v' (line 2441) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:2442 Warning 644 Variable '\_\_v' (line 2442) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:2443 Warning 644 Variable '\_\_v' (line 2443) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:2498 Warning 644 Variable '\_\_v' (line 2498) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:2499 Warning 644 Variable '\_\_v' (line 2499) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:2506 Warning 644 Variable '\_\_v' (line 2506) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:2515 Warning 644 Variable '\_\_v' (line 2515) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:2516 Warning 644 Variable '\_\_v' (line 2516) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:2519 Warning 644 Variable '\_\_v' (line 2519) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:2526 Warning 644 Variable '\_\_v' (line 2526) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:2533 Warning 644 Variable '\_\_v' (line 2533) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:2549 Warning 644 Variable '\_\_v' (line 2549) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:2562 Warning 644 Variable '\_\_v' (line 2562) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:2567 Warning 644 Variable '\_\_v' (line 2567) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:2596 Warning 644 Variable '\_\_v' (line 2596) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:2617 Warning 644 Variable '\_\_v' (line 2617) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:2620 Warning 644 Variable '\_\_v' (line 2620) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:2621 Warning 644 Variable '\_\_v' (line 2621) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:2622 Warning 644 Variable '\_\_v' (line 2622) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:2623 Warning 644 Variable '\_\_v' (line 2623) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:2624 Warning 644 Variable '\_\_v' (line 2624) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:2678 Warning 644 Variable '\_\_v' (line 2678) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:2691 Warning 644 Variable '\_\_v' (line 2691) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:2692 Warning 644 Variable '\_\_v' (line 2692) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:2703 Warning 644 Variable '\_\_v' (line 2703) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:2764 Warning 644 Variable '\_\_v' (line 2764) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:2765 Warning 644 Variable '\_\_v' (line 2765) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-multi-local] /repo/enyailn/sync/sync-multi-local/files/src/model/StackMgr.c:2777 Warning 644 Variable '\_\_v' (line 2777) may not have been initialized\\ 
+  
+\section{sync-riptp-control} 
+\subsection{Difference} 
+  
+\textbf{G3+}: sync-ptp-central\\ 
+\textbf{G3+}: WARNING: [sync-riptp-control] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:122:1: warning: '00:00:00:00:00:00' directive output truncated writing 17 bytes into a region of size 6 [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-control] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:214:1: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-control] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:343:1: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-control] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:371:1: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-control] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:544:1: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-control] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:594:1: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-control] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:622:1: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-control] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:791:1: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-control] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:831:1: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-control] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:859:1: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-control] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:1045:1: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-control] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:1107:1: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-control] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:1107:1: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-control] /repo/enyailn/sync/sync-ptp-central/files/../../sync-common/common\_fwk\_classes/srsif/SrsIfPrimitives.cc:17 Warning 451 Header file '/repo/enyailn/sync/build/devfs/dusg3/dusg3-distro/x86\_64/usr/include/c++/7.3.0/cmath' repeatedly included but does not have a standard include guard\\ 
+  
+\textbf{G3+}: sync-riptp-control\\ 
+\textbf{G3+}: WARNING: [sync-riptp-control] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:122:1: warning: '00:00:00:00:00:00' directive output truncated writing 17 bytes into a region of size 6 [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-control] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:214:1: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-control] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:343:1: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-control] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:371:1: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-control] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:544:1: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-control] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:594:1: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-control] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:622:1: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-control] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:791:1: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-control] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:831:1: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-control] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:859:1: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-control] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:1045:1: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-control] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:1107:1: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-control] /repo/enyailn/sync/sync-ptp-central/files/src/control/config/ConfigIfPrimitives.cc:1107:1: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-control] /repo/enyailn/sync/sync-ptp-central/files/../../sync-common/common\_fwk\_classes/srsif/SrsIfPrimitives.cc:17 Warning 451 Header file '/repo/enyailn/sync/build/devfs/dusg3/dusg3-distro/x86\_64/usr/include/c++/7.3.0/cmath' repeatedly included but does not have a standard include guard\\ 
+  
+\section{sync-riptp-local} 
+\subsection{Difference} 
+  
+\textbf{G3+}: sync-ptp-local\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:338:7: warning: 'readdir\_r' is deprecated [-Wdeprecated-declarations]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:436:17: warning: comparison is always false due to limited range of data type [-Wtype-limits]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2269:46: warning: format '\%lld' expects argument of type 'long long int', but argument 4 has type 'int64\_t {aka long int}' [-Wformat=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2269:56: warning: format '\%lld' expects argument of type 'long long int', but argument 6 has type 'int64\_t {aka long int}' [-Wformat=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:1608:78: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:1608:78: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:1608:78: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:1608:78: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:1608:78: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:1608:78: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:1608:78: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:1608:78: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:340:53: warning: '\%s' directive output may be truncated writing up to 255 bytes into a region of size 45 [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:1608:78: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/configMgr.c:1021:39: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/configMgr.c:1022:40: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/syncLocalIfAdm.c:313:18: warning: field width specifier '*' expects argument of type 'int', but argument 5 has type 'size\_t {aka long unsigned int}' [-Wformat=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:436 Warning 650 Constant '-1' out of range for operator '=='\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:1856 Info 712 Loss of precision (assignment) (long to int)\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:1896 Info 712 Loss of precision (assignment) (long to int)\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2435 Warning 644 Variable '\_\_v' (line 2435) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2438 Warning 644 Variable '\_\_v' (line 2438) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2439 Warning 644 Variable '\_\_v' (line 2439) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2440 Warning 644 Variable '\_\_v' (line 2440) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2441 Warning 644 Variable '\_\_v' (line 2441) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2442 Warning 644 Variable '\_\_v' (line 2442) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2443 Warning 644 Variable '\_\_v' (line 2443) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2498 Warning 644 Variable '\_\_v' (line 2498) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2499 Warning 644 Variable '\_\_v' (line 2499) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2506 Warning 644 Variable '\_\_v' (line 2506) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2515 Warning 644 Variable '\_\_v' (line 2515) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2516 Warning 644 Variable '\_\_v' (line 2516) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2519 Warning 644 Variable '\_\_v' (line 2519) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2526 Warning 644 Variable '\_\_v' (line 2526) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2533 Warning 644 Variable '\_\_v' (line 2533) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2549 Warning 644 Variable '\_\_v' (line 2549) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2562 Warning 644 Variable '\_\_v' (line 2562) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2567 Warning 644 Variable '\_\_v' (line 2567) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2596 Warning 644 Variable '\_\_v' (line 2596) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2617 Warning 644 Variable '\_\_v' (line 2617) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2620 Warning 644 Variable '\_\_v' (line 2620) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2621 Warning 644 Variable '\_\_v' (line 2621) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2622 Warning 644 Variable '\_\_v' (line 2622) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2623 Warning 644 Variable '\_\_v' (line 2623) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2624 Warning 644 Variable '\_\_v' (line 2624) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2678 Warning 644 Variable '\_\_v' (line 2678) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2691 Warning 644 Variable '\_\_v' (line 2691) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2692 Warning 644 Variable '\_\_v' (line 2692) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2703 Warning 644 Variable '\_\_v' (line 2703) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2764 Warning 644 Variable '\_\_v' (line 2764) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2765 Warning 644 Variable '\_\_v' (line 2765) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2777 Warning 644 Variable '\_\_v' (line 2777) may not have been initialized\\ 
+  
+\textbf{G3+}: sync-riptp-local\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:338:7: warning: 'readdir\_r' is deprecated [-Wdeprecated-declarations]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:436:17: warning: comparison is always false due to limited range of data type [-Wtype-limits]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2269:46: warning: format '\%lld' expects argument of type 'long long int', but argument 4 has type 'int64\_t {aka long int}' [-Wformat=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2269:56: warning: format '\%lld' expects argument of type 'long long int', but argument 6 has type 'int64\_t {aka long int}' [-Wformat=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:1608:78: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:1608:78: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:1608:78: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:1608:78: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:1608:78: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:1608:78: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:1608:78: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:1608:78: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:340:53: warning: '\%s' directive output may be truncated writing up to 255 bytes into a region of size 45 [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:1608:78: warning: 'snprintf' output truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/configMgr.c:1021:39: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/configMgr.c:1022:40: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/syncLocalIfAdm.c:313:18: warning: field width specifier '*' expects argument of type 'int', but argument 5 has type 'size\_t {aka long unsigned int}' [-Wformat=]\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:436 Warning 650 Constant '-1' out of range for operator '=='\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:1856 Info 712 Loss of precision (assignment) (long to int)\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:1896 Info 712 Loss of precision (assignment) (long to int)\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2435 Warning 644 Variable '\_\_v' (line 2435) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2438 Warning 644 Variable '\_\_v' (line 2438) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2439 Warning 644 Variable '\_\_v' (line 2439) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2440 Warning 644 Variable '\_\_v' (line 2440) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2441 Warning 644 Variable '\_\_v' (line 2441) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2442 Warning 644 Variable '\_\_v' (line 2442) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2443 Warning 644 Variable '\_\_v' (line 2443) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2498 Warning 644 Variable '\_\_v' (line 2498) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2499 Warning 644 Variable '\_\_v' (line 2499) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2506 Warning 644 Variable '\_\_v' (line 2506) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2515 Warning 644 Variable '\_\_v' (line 2515) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2516 Warning 644 Variable '\_\_v' (line 2516) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2519 Warning 644 Variable '\_\_v' (line 2519) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2526 Warning 644 Variable '\_\_v' (line 2526) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2533 Warning 644 Variable '\_\_v' (line 2533) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2549 Warning 644 Variable '\_\_v' (line 2549) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2562 Warning 644 Variable '\_\_v' (line 2562) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2567 Warning 644 Variable '\_\_v' (line 2567) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2596 Warning 644 Variable '\_\_v' (line 2596) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2617 Warning 644 Variable '\_\_v' (line 2617) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2620 Warning 644 Variable '\_\_v' (line 2620) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2621 Warning 644 Variable '\_\_v' (line 2621) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2622 Warning 644 Variable '\_\_v' (line 2622) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2623 Warning 644 Variable '\_\_v' (line 2623) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2624 Warning 644 Variable '\_\_v' (line 2624) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2678 Warning 644 Variable '\_\_v' (line 2678) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2691 Warning 644 Variable '\_\_v' (line 2691) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2692 Warning 644 Variable '\_\_v' (line 2692) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2703 Warning 644 Variable '\_\_v' (line 2703) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2764 Warning 644 Variable '\_\_v' (line 2764) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2765 Warning 644 Variable '\_\_v' (line 2765) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-riptp-local] /repo/enyailn/sync/sync-ptp-local/files/src/stackMgr.c:2777 Warning 644 Variable '\_\_v' (line 2777) may not have been initialized\\ 
+  
+\section{sync-remote-central} 
+\subsection{Difference} 
+\textbf{G2-}: sync-fm 
+\rule{\textwidth}{0.5pt} 
+\textbf{G3+}: sync-fm\\ 
+\textbf{G3+}: WARNING: [sync-fm] /repo/enyailn/sync/sync-fm/files/src/faultfilter/integral/IntegralStateMachine.cc:82:29: warning: this statement may fall through [-Wimplicit-fallthrough=]\\ 
+\subsection{Difference} 
+\textbf{G3+}: WARNING: [sync-fm] /repo/enyailn/sync/sync-fm/files/src/EventLoop.cc:59 Error 1055 Symbol 'Sync::faultmanagement::wait' undeclared, assumed to return int\\ 
+\textbf{G3+}: WARNING: [sync-fm] /repo/enyailn/sync/sync-fm/files/src/EventLoop.cc:59 Info 746 call to function 'Sync::faultmanagement::wait()' not made in the presence of a prototype\\ 
+\subsection{Difference} 
+\textbf{G2-}: WARNING: [sync-fm] /repo/enyailn/sync/sync-fm/files/src/EventLoop.cc:59 Warning 505 Redundant left argument to comma\\ 
+\textbf{G2-}: WARNING: [sync-fm] /repo/enyailn/sync/sync-fm/files/src/EventLoop.cc:59 Error 69 can't cast from struct to union\\ 
+\textbf{G2-}: WARNING: [sync-fm] /repo/enyailn/sync/sync-fm/files/src/EventLoop.cc:59 Warning 522 Highest operation, operator '.', lacks side-effects\\ 
+\rule{\textwidth}{0.5pt} 
+\textbf{G3+}: WARNING: [sync-fm] /repo/enyailn/sync/sync-fm/files/src/EventLoop.cc:59 Warning 534 Ignoring return value of function 'Sync::faultmanagement::wait()' (compare with line 59)\\ 
+\subsection{Difference} 
+  
+\textbf{G3+}: sync-remote-central\\ 
+\textbf{G3+}: WARNING: [sync-remote-central] /repo/enyailn/sync/sync-remote-central/files/src/model/Ru.cc:180 Info 712 Loss of precision (assignment) (unsigned long to unsigned int)\\ 
+\textbf{G3+}: WARNING: [sync-remote-central] /repo/enyailn/sync/sync-remote-central/files/../../sync-common/common\_fwk\_classes/fruni/FruniPrimitives.cc:357 Warning 644 Variable '\_\_v' (line 357) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-remote-central] /repo/enyailn/sync/sync-remote-central/files/../../sync-common/common\_fwk\_classes/fruni/FruniPrimitives.cc:358 Warning 644 Variable '\_\_v' (line 358) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-remote-central] /repo/enyailn/sync/sync-remote-central/files/../../sync-common/common\_fwk\_classes/sci/SciPrimitives.cc:5062 Warning 644 Variable '\_\_v' (line 5062) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-remote-central] /repo/enyailn/sync/sync-remote-central/files/../../sync-common/common\_fwk\_classes/sci/SciPrimitives.cc:5071 Warning 644 Variable '\_\_v' (line 5071) may not have been initialized\\ 
+  
+\section{sync-ntp-central} 
+\subsection{Difference} 
+  
+\textbf{G3+}: sync-ntp-central\\ 
+\textbf{G3+}: WARNING: [sync-ntp-central] /repo/enyailn/sync/sync-ntp-central/files/../../sync-common/common\_fwk\_classes/srsif/SrsIfPrimitives.cc:17 Warning 451 Header file '/repo/enyailn/sync/build/devfs/dusg3/dusg3-distro/x86\_64/usr/include/c++/7.3.0/cmath' repeatedly included but does not have a standard include guard\\ 
+  
+\section{sync-ntp-local} 
+\subsection{Difference} 
+  
+\textbf{G3+}: sync-ntp-local\\ 
+\textbf{G3+}: WARNING: [sync-ntp-local] /repo/enyailn/sync/sync-ntp-local/files/src/client/NtpClientColi.c:213:48: warning: format '\%lld' expects argument of type 'long long int', but argument 7 has type 'uint64\_t {aka const long unsigned int}' [-Wformat=]\\ 
+\textbf{G3+}: WARNING: [sync-ntp-local] /repo/enyailn/sync/sync-ntp-local/files/src/client/NtpClientColi.c:213:48: warning: format '\%lld' expects argument of type 'long long int', but argument 8 has type 'uint64\_t {aka const long unsigned int}' [-Wformat=]\\ 
+\textbf{G3+}: WARNING: [sync-ntp-local] /repo/enyailn/sync/sync-ntp-local/files/src/client/NtpClientColi.c:213:48: warning: format '\%lld' expects argument of type 'long long int', but argument 9 has type 'uint64\_t {aka const long unsigned int}' [-Wformat=]\\ 
+\textbf{G3+}: WARNING: [sync-ntp-local] /repo/enyailn/sync/sync-ntp-local/files/src/client/NtpClientColi.c:213:48: warning: format '\%lld' expects argument of type 'long long int', but argument 15 has type 'uint64\_t {aka const long unsigned int}' [-Wformat=]\\ 
+\textbf{G3+}: WARNING: [sync-ntp-local] /repo/enyailn/sync/sync-ntp-local/files/src/client/NtpClientColi.c:213:48: warning: format '\%lld' expects argument of type 'long long int', but argument 16 has type 'uint64\_t {aka const long unsigned int}' [-Wformat=]\\ 
+\textbf{G3+}: WARNING: [sync-ntp-local] /repo/enyailn/sync/sync-ntp-local/files/src/client/NtpClient.c:577 Info 766 Header file '/repo/enyailn/sync/build/devfs/dusg3/dusg3-distro/x86\_64/usr/include/sys/stat.h' not used in module '/repo/enyailn/sync/sync-ntp-local/files/src/client/NtpClient.c'\\ 
+\textbf{G3+}: WARNING: [sync-ntp-local] /repo/enyailn/sync/sync-ntp-local/files/src/client/NtpSocket.c:229 Warning 644 Variable '\_\_v' (line 229) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-ntp-local] /repo/enyailn/sync/sync-ntp-local/files/src/main/NtpLocalColi.c:85 Info 818 Pointer parameter 'search' (line 68) could be declared as pointing to const\\ 
+\textbf{G3+}: WARNING: [sync-ntp-local] /repo/enyailn/sync/sync-ntp-local/files/src/client/NtpPacket.c:131 Info 712 Loss of precision (assignment) (long to int)\\ 
+\textbf{G3+}: WARNING: [sync-ntp-local] /repo/enyailn/sync/sync-ntp-local/files/src/client/NtpPacket.c:202 Warning 644 Variable '\_\_v' (line 202) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-ntp-local] /repo/enyailn/sync/sync-ntp-local/files/src/client/NtpClientColi.c:428 Info 732 Loss of sign (arg. no. 3) (int to unsigned int)\\ 
+  
+\section{sync-ngsm-central} 
+\subsection{Difference} 
+\textbf{G2-}: sync-fm 
+\rule{\textwidth}{0.5pt} 
+\textbf{G3+}: sync-fm\\ 
+\textbf{G3+}: WARNING: [sync-fm] /repo/enyailn/sync/sync-fm/files/src/faultfilter/integral/IntegralStateMachine.cc:82:29: warning: this statement may fall through [-Wimplicit-fallthrough=]\\ 
+\subsection{Difference} 
+\textbf{G3+}: WARNING: [sync-fm] /repo/enyailn/sync/sync-fm/files/src/EventLoop.cc:59 Error 1055 Symbol 'Sync::faultmanagement::wait' undeclared, assumed to return int\\ 
+\textbf{G3+}: WARNING: [sync-fm] /repo/enyailn/sync/sync-fm/files/src/EventLoop.cc:59 Info 746 call to function 'Sync::faultmanagement::wait()' not made in the presence of a prototype\\ 
+\subsection{Difference} 
+\textbf{G2-}: WARNING: [sync-fm] /repo/enyailn/sync/sync-fm/files/src/EventLoop.cc:59 Warning 505 Redundant left argument to comma\\ 
+\textbf{G2-}: WARNING: [sync-fm] /repo/enyailn/sync/sync-fm/files/src/EventLoop.cc:59 Error 69 can't cast from struct to union\\ 
+\textbf{G2-}: WARNING: [sync-fm] /repo/enyailn/sync/sync-fm/files/src/EventLoop.cc:59 Warning 522 Highest operation, operator '.', lacks side-effects\\ 
+\rule{\textwidth}{0.5pt} 
+\textbf{G3+}: WARNING: [sync-fm] /repo/enyailn/sync/sync-fm/files/src/EventLoop.cc:59 Warning 534 Ignoring return value of function 'Sync::faultmanagement::wait()' (compare with line 59)\\ 
+\subsection{Difference} 
+  
+\textbf{G3+}: sync-ngsm-central\\ 
+\textbf{G3+}: WARNING: [sync-ngsm-central] /repo/enyailn/sync/sync-ngsm-central/files/../../sync-common/common\_fwk\_classes/sci/SciPrimitives.cc:5062 Warning 644 Variable '\_\_v' (line 5062) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-ngsm-central] /repo/enyailn/sync/sync-ngsm-central/files/../../sync-common/common\_fwk\_classes/sci/SciPrimitives.cc:5071 Warning 644 Variable '\_\_v' (line 5071) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-ngsm-central] /repo/enyailn/sync/sync-ngsm-central/files/src/control/modelif/NgsmModelHandler.cc:534 Info 712 Loss of precision (arg. no. 1) (unsigned long to unsigned int)\\ 
+\textbf{G3+}: WARNING: [sync-ngsm-central] /repo/enyailn/sync/sync-ngsm-central/files/src/model/NgsmMo.cc:2838 Info 712 Loss of precision (assignment) (unsigned long to unsigned int)\\ 
+  
+\section{sync-ngsm-local} 
+  
+\section{sync-port-central} 
+\subsection{Difference} 
+\textbf{G2-}: sync-fm 
+\rule{\textwidth}{0.5pt} 
+\textbf{G3+}: sync-fm\\ 
+\textbf{G3+}: WARNING: [sync-fm] /repo/enyailn/sync/sync-fm/files/src/faultfilter/integral/IntegralStateMachine.cc:82:29: warning: this statement may fall through [-Wimplicit-fallthrough=]\\ 
+\subsection{Difference} 
+\textbf{G3+}: WARNING: [sync-fm] /repo/enyailn/sync/sync-fm/files/src/EventLoop.cc:59 Error 1055 Symbol 'Sync::faultmanagement::wait' undeclared, assumed to return int\\ 
+\textbf{G3+}: WARNING: [sync-fm] /repo/enyailn/sync/sync-fm/files/src/EventLoop.cc:59 Info 746 call to function 'Sync::faultmanagement::wait()' not made in the presence of a prototype\\ 
+\subsection{Difference} 
+\textbf{G2-}: WARNING: [sync-fm] /repo/enyailn/sync/sync-fm/files/src/EventLoop.cc:59 Warning 505 Redundant left argument to comma\\ 
+\textbf{G2-}: WARNING: [sync-fm] /repo/enyailn/sync/sync-fm/files/src/EventLoop.cc:59 Error 69 can't cast from struct to union\\ 
+\textbf{G2-}: WARNING: [sync-fm] /repo/enyailn/sync/sync-fm/files/src/EventLoop.cc:59 Warning 522 Highest operation, operator '.', lacks side-effects\\ 
+\rule{\textwidth}{0.5pt} 
+\textbf{G3+}: WARNING: [sync-fm] /repo/enyailn/sync/sync-fm/files/src/EventLoop.cc:59 Warning 534 Ignoring return value of function 'Sync::faultmanagement::wait()' (compare with line 59)\\ 
+\subsection{Difference} 
+  
+\textbf{G3+}: sync-port-central\\ 
+\textbf{G3+}: WARNING: [sync-port-central] /repo/enyailn/sync/sync-port-central/files/src/control/modelif/ModelHandler.cc:286:6: warning: '\%d' directive output may be truncated writing between 1 and 3 bytes into a region of size 2 [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-port-central] /repo/enyailn/sync/sync-port-central/files/../../sync-common/common\_fwk\_classes/srsif/SrsIfPrimitives.cc:17 Warning 451 Header file '/repo/enyailn/sync/build/devfs/dusg3/dusg3-distro/x86\_64/usr/include/c++/7.3.0/cmath' repeatedly included but does not have a standard include guard\\ 
+\textbf{G3+}: WARNING: [sync-port-central] /repo/enyailn/sync/sync-port-central/files/../../sync-common/common\_fwk\_classes/fruni/FruniPrimitives.cc:357 Warning 644 Variable '\_\_v' (line 357) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-port-central] /repo/enyailn/sync/sync-port-central/files/../../sync-common/common\_fwk\_classes/fruni/FruniPrimitives.cc:358 Warning 644 Variable '\_\_v' (line 358) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-port-central] /repo/enyailn/sync/sync-port-central/files/../../sync-common/common\_fwk\_classes/sci/SciPrimitives.cc:5062 Warning 644 Variable '\_\_v' (line 5062) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-port-central] /repo/enyailn/sync/sync-port-central/files/../../sync-common/common\_fwk\_classes/sci/SciPrimitives.cc:5071 Warning 644 Variable '\_\_v' (line 5071) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-port-central] /repo/enyailn/sync/sync-port-central/files/src/model/SyncPort.cc:630 Info 712 Loss of precision (assignment) (unsigned long to unsigned int)\\ 
+\textbf{G3+}: WARNING: [sync-port-central] /repo/enyailn/sync/sync-port-central/files/../../sync-common/common\_fwk\_classes/frumqi/FrumqiPrimitives.cc:440 Warning 644 Variable '\_\_v' (line 440) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-port-central] /repo/enyailn/sync/sync-port-central/files/../../sync-common/common\_fwk\_classes/frumqi/FrumqiPrimitives.cc:441 Warning 644 Variable '\_\_v' (line 441) may not have been initialized\\ 
+  
+\section{sync-port-local} 
+\subsection{Difference} 
+  
+\textbf{G3+}: sync-port-local\\ 
+\textbf{G3+}: WARNING: [sync-port-local] /repo/enyailn/sync/sync-port-local/files/src/SyncPhaseMeasIfAdm.c:90:18: warning: field width specifier '*' expects argument of type 'int', but argument 5 has type 'size\_t {aka long unsigned int}' [-Wformat=]\\ 
+\textbf{G3+}: WARNING: [sync-port-local] /repo/enyailn/sync/sync-port-local/files/src/SyncPhaseMeasIfAdm.c:524:50: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]\\ 
+\textbf{G3+}: WARNING: [sync-port-local] /repo/enyailn/sync/sync-port-local/files/src/SyncPhaseMeasIfAdm.c:552:52: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]\\ 
+\textbf{G3+}: WARNING: [sync-port-local] /repo/enyailn/sync/sync-port-local/files/src/SyncPhaseMeasIfAdm.c:529:61: warning: '\%s' directive output may be truncated writing up to 254 bytes into a region of size 78 [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-port-local] /repo/enyailn/sync/sync-port-local/files/src/SyncPhaseMeasIfAdm.c:557:63: warning: '\%s' directive output may be truncated writing up to 254 bytes into a region of size 76 [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-port-local] /repo/enyailn/sync/sync-port-local/files/src/gps/Gps.c:2228:57: warning: 'snprintf' output may be truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-port-local] /repo/enyailn/sync/sync-port-local/files/src/gps/Gps.c:2228:57: warning: 'snprintf' output may be truncated before the last format character [-Wformat-truncation=]\\ 
+\textbf{G3+}: WARNING: [sync-port-local] /repo/enyailn/sync/sync-port-local/files/src/gps/GpsCommon.c:1142:31: warning: comparison is always false due to limited range of data type [-Wtype-limits]\\ 
+\textbf{G3+}: WARNING: [sync-port-local] /repo/enyailn/sync/sync-port-local/files/src/fifo/FifoSkyView.c:292:23: warning: array subscript is above array bounds [-Warray-bounds]\\ 
+\textbf{G3+}: WARNING: [sync-port-local] /repo/enyailn/sync/sync-port-local/files/src/fifo/FifoSkyView.c:292:23: warning: array subscript is above array bounds [-Warray-bounds]\\ 
+\textbf{G3+}: WARNING: [sync-port-local] /repo/enyailn/sync/sync-port-local/files/src/fifo/FifoSkyView.c:292:23: warning: array subscript is above array bounds [-Warray-bounds]\\ 
+\textbf{G3+}: WARNING: [sync-port-local] /repo/enyailn/sync/sync-port-local/files/src/gps/GpsCommon.c:1142 Warning 650 Constant '-1' out of range for operator '=='\\ 
+  
+\section{sync-eth-central} 
+\subsection{Difference} 
+  
+\textbf{G3+}: sync-eth-central\\ 
+\textbf{G3+}: WARNING: [sync-eth-central] /repo/enyailn/sync/sync-eth-central/files/../../sync-common/common\_fwk\_classes/srsif/SrsIfPrimitives.cc:17 Warning 451 Header file '/repo/enyailn/sync/build/devfs/dusg3/dusg3-distro/x86\_64/usr/include/c++/7.3.0/cmath' repeatedly included but does not have a standard include guard\\ 
+\textbf{G3+}: WARNING: [sync-eth-central] /repo/enyailn/sync/sync-eth-central/files/src/control/secli/SecliPrimitives.cc:1126 Info 766 Header file '/repo/enyailn/sync/build/devfs/dusg3/dusg3-distro/x86\_64/usr/include/c++/7.3.0/stdlib.h' not used in module '/repo/enyailn/sync/sync-eth-central/files/src/control/secli/SecliPrimitives.cc'\\ 
+\textbf{G3+}: WARNING: [sync-eth-central] /repo/enyailn/sync/sync-eth-central/files/../../sync-common/common\_fwk\_classes/sci/SciPrimitives.cc:5062 Warning 644 Variable '\_\_v' (line 5062) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-eth-central] /repo/enyailn/sync/sync-eth-central/files/../../sync-common/common\_fwk\_classes/sci/SciPrimitives.cc:5071 Warning 644 Variable '\_\_v' (line 5071) may not have been initialized\\ 
+  
+\section{sync-eth-local} 
+  
+\section{sync-testport-central} 
+\subsection{Difference} 
+  
+\textbf{G3+}: sync-testport-central\\ 
+\textbf{G3+}: WARNING: [sync-testport-central] /repo/enyailn/sync/sync-testport-central/files/../../sync-common/common\_fwk\_classes/frumqi/FrumqiPrimitives.cc:440 Warning 644 Variable '\_\_v' (line 440) may not have been initialized\\ 
+\textbf{G3+}: WARNING: [sync-testport-central] /repo/enyailn/sync/sync-testport-central/files/../../sync-common/common\_fwk\_classes/frumqi/FrumqiPrimitives.cc:441 Warning 644 Variable '\_\_v' (line 441) may not have been initialized\\ 
+  
+\section{sync-testport-local} 
+\subsection{Difference} 
+  
+\textbf{G3+}: sync-testport-local\\ 
+\textbf{G3+}: WARNING: [sync-testport-local] /repo/enyailn/sync/sync-testport-local/files/src/syncLocalIf/SyncLocalIfClient.c:219:18: warning: field width specifier '*' expects argument of type 'int', but argument 5 has type 'size\_t {aka long unsigned int}' [-Wformat=]\\ 
+\textbf{G3+}: WARNING: [sync-testport-local] /repo/enyailn/sync/sync-testport-local/files/src/hali/Hali.c:467 Info 766 Header file '/repo/enyailn/sync/sync-testport-local/files/src/control/TestPortController.h' not used in module '/repo/enyailn/sync/sync-testport-local/files/src/hali/Hali.c'\\ 
+  
+\section{sync-pm-central} 
+  
+\section{linuxptp16} 
+  
+\section{sync-dcg} 
+  
+\section{scspi} 
+\subsection{Difference} 
+  
+\textbf{G3+}: scspi\\ 
+\textbf{G3+}: WARNING: [scspi] /repo/enyailn/sync/scspi/files/src/ifu/scspiproxy.c:146 Warning 419 Apparent data overrun for function 'strncpy(char *, const char *, unsigned int)', argument 3 (size=16) exceeds argument 1 (size=1) [Reference: file /repo/enyailn/sync/scspi/files/src/ifu/scspiproxy.c: lines 144, 146]\\ 
+  
+\section{sync-fm} 
+\subsection{Difference} 
+\textbf{G2-}: sync-fm 
+\rule{\textwidth}{0.5pt} 
+\textbf{G3+}: sync-fm\\ 
+\textbf{G3+}: WARNING: [sync-fm] /repo/enyailn/sync/sync-fm/files/src/faultfilter/integral/IntegralStateMachine.cc:82:29: warning: this statement may fall through [-Wimplicit-fallthrough=]\\ 
+\subsection{Difference} 
+\textbf{G3+}: WARNING: [sync-fm] /repo/enyailn/sync/sync-fm/files/src/EventLoop.cc:59 Error 1055 Symbol 'Sync::faultmanagement::wait' undeclared, assumed to return int\\ 
+\textbf{G3+}: WARNING: [sync-fm] /repo/enyailn/sync/sync-fm/files/src/EventLoop.cc:59 Info 746 call to function 'Sync::faultmanagement::wait()' not made in the presence of a prototype\\ 
+\subsection{Difference} 
+\textbf{G2-}: WARNING: [sync-fm] /repo/enyailn/sync/sync-fm/files/src/EventLoop.cc:59 Warning 505 Redundant left argument to comma\\ 
+\textbf{G2-}: WARNING: [sync-fm] /repo/enyailn/sync/sync-fm/files/src/EventLoop.cc:59 Error 69 can't cast from struct to union\\ 
+\textbf{G2-}: WARNING: [sync-fm] /repo/enyailn/sync/sync-fm/files/src/EventLoop.cc:59 Warning 522 Highest operation, operator '.', lacks side-effects\\ 
+\rule{\textwidth}{0.5pt} 
+\textbf{G3+}: WARNING: [sync-fm] /repo/enyailn/sync/sync-fm/files/src/EventLoop.cc:59 Warning 534 Ignoring return value of function 'Sync::faultmanagement::wait()' (compare with line 59)\\ 
+ 
+\section{sync-pm}
+ 
+
+\end{document}
