@@ -1,8 +1,8 @@
-PWD c:/Users/lingyuan/Documents/latex/latex-project/resume-lingyuan-yang
+PWD c:/Users/yangl/Documents/latexex_project/latex-project/resume-lingyuan-yang
 INPUT c:/texlive/2018/texmf.cnf
 INPUT c:/texlive/2018/texmf-dist/web2c/texmf.cnf
 INPUT c:/texlive/2018/texmf-var/web2c/pdftex/pdflatex.fmt
-INPUT c:/Users/lingyuan/Documents/latex/latex-project/resume-lingyuan-yang/main.tex
+INPUT c:/Users/yangl/Documents/latexex_project/latex-project/resume-lingyuan-yang/main.tex
 OUTPUT main.log
 INPUT c:/texlive/2018/texmf-dist/tex/latex/moderncv/moderncv.cls
 INPUT c:/texlive/2018/texmf-dist/tex/latex/moderncv/moderncv.cls
@@ -72,6 +72,8 @@ INPUT c:/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmr10.tfm
 INPUT c:/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmr10.tfm
 INPUT c:/texlive/2018/texmf-dist/tex/generic/unicode-data/UnicodeData.txt
 INPUT c:/texlive/2018/texmf-dist/tex/generic/unicode-data/UnicodeData.txt
+INPUT nul
+INPUT nul
 INPUT c:/texlive/2018/texmf-dist/tex/latex/l3kernel/l3pdfmode.def
 INPUT c:/texlive/2018/texmf-dist/tex/latex/l3kernel/l3pdfmode.def
 INPUT c:/texlive/2018/texmf-dist/tex/latex/microtype/microtype.sty
@@ -223,9 +225,9 @@ INPUT ./NUEDC.jpg
 INPUT kth.png
 INPUT ./kth.png
 INPUT ./kth.png
-INPUT hit.png
-INPUT ./hit.png
-INPUT ./hit.png
+INPUT hit.jpg
+INPUT ./hit.jpg
+INPUT ./hit.jpg
 INPUT c:/texlive/2018/texmf-dist/fonts/tfm/public/lm/ec-lmss8.tfm
 INPUT c:/texlive/2018/texmf-dist/fonts/tfm/public/lm/ec-lmss8.tfm
 INPUT c:/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map
